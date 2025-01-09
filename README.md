@@ -1,5 +1,7 @@
 # heading-case
 
+Format page titles and section headings in markdown files to use sentence-style capitalization.
+
 <p>
   <a href="https://npmjs.com/package/heading-case">
    <img src="https://img.shields.io/npm/v/heading-case?style=flat-square&colorA=564341&colorB=EDED91" alt="npm version" />

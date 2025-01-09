@@ -17,9 +17,18 @@ importers:
       '@types/node':
         specifier: ^22.10.1
         version: 22.10.1
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
+      rslog:
+        specifier: ^1.2.3
+        version: 1.2.3
       simple-git-hooks:
         specifier: ^2.11.1
         version: 2.11.1
+      tinyglobby:
+        specifier: ^0.2.10
+        version: 0.2.10
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -218,6 +227,10 @@ packages:
       typescript:
         optional: true
 
+  rslog@1.2.3:
+    resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
+    engines: {node: '>=14.17.6'}
+
   simple-git-hooks@2.11.1:
     resolution: {integrity: sha512-tgqwPUMDcNDhuf1Xf6KTUsyeqGdgKMhzaH4PAZZuzguOgTl5uuyeYe/8mWgAr6IBxB5V06uqEf6Dy37gIWDtDg==}
     hasBin: true
@@ -389,6 +402,8 @@ snapshots:
       tinyglobby: 0.2.10
     optionalDependencies:
       typescript: 5.7.2
+
+  rslog@1.2.3: {}
 
   simple-git-hooks@2.11.1: {}
 
