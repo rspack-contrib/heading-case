@@ -13,19 +13,38 @@ export async function globMarkdownFiles(cwd: string) {
 }
 
 const isTitleLine = (line: string) => /^#{1,6}\s+\S/.test(line.trim());
-const isTerm = (word: string) => dict.includes(word);
+const isEnglishWord = (word: string) => /^[a-zA-Z]+$/.test(word);
 const isFirstCharUppercase = (word: string) => /^[A-Z][a-z]*$/.test(word);
+
+const isTerm = (word: string, line: string) => {
+  return dict.some((term) => {
+    if (term.includes(` ${word}`) || term.includes(`${word} `)) {
+      return line.includes(term);
+    }
+    return term === word;
+  });
+};
 
 const formatLine = (originalLine: string) => {
   let line = originalLine;
   const words = line.trim().split(/\s+/);
+  const englishWords: string[] = [];
 
   for (let index = 0; index < words.length; index++) {
     const word = words[index];
 
-    // Ignore the first word and terms
-    // preserve the first-char-uppercase English words
-    if (index <= 1 || !isFirstCharUppercase(word) || isTerm(word)) {
+    if (isEnglishWord(word)) {
+      englishWords.push(word);
+    }
+
+    if (
+      // ignore the first English word
+      englishWords.length <= 1 ||
+      // ignore terms
+      isTerm(word, originalLine) ||
+      // only format the first-char-uppercase English words
+      !isFirstCharUppercase(word)
+    ) {
       continue;
     }
 

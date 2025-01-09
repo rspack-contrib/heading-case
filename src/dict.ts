@@ -22,6 +22,9 @@ export const dict = [
   'Rollup',
   'Parcel',
   'Vite',
-  'Federation',
-  'Workers',
+  'Module Federation',
+  'CSS Modules',
+  'Web Workers',
+  'Create React App',
+  'React Router',
 ];
