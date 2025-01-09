@@ -68,9 +68,7 @@ function formatContent(content: string, filePath: string) {
         const formattedLine = formatLine(originalLine);
 
         if (!shouldWrite && formattedLine !== originalLine) {
-          logger.error(
-            `Unexpected heading case in ${color.dim(filePath)}`,
-          );
+          logger.error(`Unexpected heading case in ${color.dim(filePath)}`);
           logger.log(`        Current: ${color.cyan(originalLine)}`);
           logger.log(`        Expected: ${color.cyan(formattedLine)}\n`);
         }
@@ -111,8 +109,14 @@ export async function headingCase({
   }
 
   if (count) {
-    logger.success(
-      `[heading-case] formatted ${color.yellow(count.toString())} files.`,
-    );
+    if (shouldWrite) {
+      logger.success(
+        `[heading-case] formatted ${color.yellow(count.toString())} files.`,
+      );
+    } else {
+      logger.info(
+        `[heading-case] found issues in ${color.yellow(count.toString())} files.`,
+      );
+    }
   }
 }
