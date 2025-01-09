@@ -117,6 +117,7 @@ export async function headingCase({
       logger.info(
         `[heading-case] found issues in ${color.yellow(count.toString())} files.`,
       );
+      process.exit(1);
     }
   }
 }
