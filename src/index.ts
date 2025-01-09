@@ -77,7 +77,7 @@ async function formatFile(filePath: string) {
 
   if (isChanged) {
     await fs.promises.writeFile(filePath, formatted);
-    logger.success(`${color.green('Formatted')} ${color.dim(filePath)}`);
+    logger.success(`formatted: ${color.dim(filePath)}`);
   }
 
   return isChanged;
