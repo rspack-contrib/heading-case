@@ -11,8 +11,28 @@ export async function globMarkdownFiles(cwd: string) {
   });
 }
 
-function format(content: string) {
-  return content;
+function formatContent(content: string) {
+  const lines = content.split('\n');
+
+  for (const line of lines) {
+    if (line.trim().startsWith('#')) {
+    }
+  }
+
+  return lines.join('\n');
+}
+
+async function formatFile(filePath: string) {
+  const content = await fs.promises.readFile(filePath, 'utf-8');
+  const formatted = formatContent(content);
+  const isChanged = formatted !== content;
+
+  if (isChanged) {
+    await fs.promises.writeFile(filePath, formatted);
+    logger.success(`${color.green('Formatted')} ${color.dim(filePath)}`);
+  }
+
+  return isChanged;
 }
 
 export async function headingCase({
@@ -21,12 +41,16 @@ export async function headingCase({
   root?: string;
 } = {}) {
   const files = await globMarkdownFiles(root);
+  let count = 0;
+
   for (const file of files) {
-    const content = await fs.promises.readFile(file, 'utf-8');
-    const formatted = format(content);
-    if (formatted !== content) {
-      await fs.promises.writeFile(file, formatted);
-      logger.success(`${color.green('Formatted')} ${color.dim(file)}`);
+    const result = await formatFile(file);
+    if (result) {
+      count++;
     }
   }
+
+  logger.success(
+    `[heading-case] Formatted ${color.green(count.toString())} files.`,
+  );
 }
