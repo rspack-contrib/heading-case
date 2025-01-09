@@ -25,6 +25,8 @@ const isTerm = (word: string, line: string) => {
   });
 };
 
+const shouldWrite = process.argv.includes('--write');
+
 const formatLine = (originalLine: string) => {
   let line = originalLine;
   const words = line.trim().split(/\s+/);
@@ -57,13 +59,23 @@ const formatLine = (originalLine: string) => {
   return line;
 };
 
-function formatContent(content: string) {
+function formatContent(content: string, filePath: string) {
   const lines = content.split('\n');
 
   return lines
     .map((originalLine) => {
       if (isTitleLine(originalLine)) {
-        return formatLine(originalLine);
+        const formattedLine = formatLine(originalLine);
+
+        if (!shouldWrite && formattedLine !== originalLine) {
+          logger.error(
+            `Unexpected heading case in ${color.dim(filePath)}`,
+          );
+          logger.log(`        Current: ${color.cyan(originalLine)}`);
+          logger.log(`        Expected: ${color.cyan(formattedLine)}\n`);
+        }
+
+        return formattedLine;
       }
       return originalLine;
     })
@@ -72,12 +84,12 @@ function formatContent(content: string) {
 
 async function formatFile(filePath: string) {
   const content = await fs.promises.readFile(filePath, 'utf-8');
-  const formatted = formatContent(content);
+  const formatted = formatContent(content, filePath);
   const isChanged = formatted !== content;
 
-  if (isChanged) {
+  if (isChanged && shouldWrite) {
     await fs.promises.writeFile(filePath, formatted);
-    logger.success(`formatted: ${color.dim(filePath)}`);
+    logger.success(`[heading-case] formatted: ${color.dim(filePath)}`);
   }
 
   return isChanged;

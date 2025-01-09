@@ -38,10 +38,16 @@ Install:
 npm add heading-case -D
 ```
 
-Format all markdown and MDX files in the current directory:
+Check all markdown and MDX files in the current directory:
 
 ```bash
 npx heading-case
+```
+
+Check and write the formatted content to the file:
+
+```bash
+npx heading-case --write
 ```
 
 ## License
