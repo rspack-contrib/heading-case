@@ -19,5 +19,9 @@ export const dict = [
   'Rslib',
   'Rspress',
   'Rstest',
+  'Rollup',
+  'Parcel',
   'Vite',
+  'Federation',
+  'Worker',
 ];
