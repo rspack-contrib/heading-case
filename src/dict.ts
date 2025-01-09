@@ -23,5 +23,5 @@ export const dict = [
   'Parcel',
   'Vite',
   'Federation',
-  'Worker',
+  'Workers',
 ];
