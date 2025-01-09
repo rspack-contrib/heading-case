@@ -11,13 +11,40 @@ export async function globMarkdownFiles(cwd: string) {
   });
 }
 
+const isTitleLine = (line: string) => /^#{1,6}\s+\S/.test(line.trim());
+const isEnglishWord = (word: string) => /^[a-zA-Z]+$/.test(word);
+
+const formatLine = (originalLine: string) => {
+  let line = originalLine;
+  const words = line.trim().split(/\s+/);
+
+  for (let index = 0; index < words.length; index++) {
+    const word = words[index];
+    if (index === 0 || !isEnglishWord(word)) {
+      continue;
+    }
+
+    const lowerCaseWord = word.toLowerCase();
+    if (lowerCaseWord !== word) {
+      line = line.replace(
+        new RegExp(`(\\s)${word}(\\s)`, 'g'),
+        `$1${lowerCaseWord}$2`,
+      );
+    }
+  }
+
+  return words.join(' ');
+};
+
 function formatContent(content: string) {
   const lines = content.split('\n');
 
-  for (const line of lines) {
-    if (line.trim().startsWith('#')) {
+  lines.map((originalLine) => {
+    if (isTitleLine(originalLine)) {
+      return formatLine(originalLine);
     }
-  }
+    return originalLine;
+  });
 
   return lines.join('\n');
 }
@@ -44,13 +71,15 @@ export async function headingCase({
   let count = 0;
 
   for (const file of files) {
-    const result = await formatFile(file);
-    if (result) {
+    const isFormatted = await formatFile(file);
+    if (isFormatted) {
       count++;
     }
   }
 
-  logger.success(
-    `[heading-case] Formatted ${color.green(count.toString())} files.`,
-  );
+  if (count) {
+    logger.success(
+      `[heading-case] formatted ${color.yellow(count.toString())} files.`,
+    );
+  }
 }
