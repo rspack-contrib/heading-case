@@ -13,6 +13,7 @@ export const dict = [
   ...Object.values(products),
   ...Object.values(softwares),
   'EJS',
+  'React',
   'Rspack',
   'Rsbuild',
   'Rsdoctor',
