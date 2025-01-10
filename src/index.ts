@@ -165,5 +165,9 @@ export async function headingCase({
       );
       process.exit(1);
     }
+  } else {
+    logger.success(
+      `[heading-case] ${color.yellow(files.length)} files scanned, no issues found.`,
+    );
   }
 }
