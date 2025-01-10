@@ -14,6 +14,12 @@ test('should format line as expected', () => {
     '###### Hello world',
   );
 
+  // Same words
+  assert.deepStrictEqual(
+    formatLine('# Hello Hello Hello World'),
+    '# Hello hello hello world',
+  );
+
   // Term
   assert.deepStrictEqual(
     formatLine('# A New Method for Creating JavaScript Rollovers'),

@@ -27,36 +27,82 @@ const isTerm = (word: string, line: string) => {
 
 const shouldWrite = process.argv.includes('--write');
 
-export const formatLine = (originalLine: string) => {
-  let line = originalLine;
-  const words = line.trim().split(/\s+/);
+type WordMeta = {
+  type: 'word' | 'space';
+  value: string;
+};
+
+const lineToWords = (line: string) => {
+  const words: WordMeta[] = [];
+
+  let lastWord: WordMeta = {
+    type: 'word',
+    value: '',
+  };
+
+  for (const char of line.split('')) {
+    if (/\s/.test(char)) {
+      if (lastWord.type === 'space') {
+        lastWord.value += char;
+      } else {
+        words.push(lastWord);
+        lastWord = {
+          type: 'space',
+          value: char,
+        };
+      }
+    } else {
+      if (lastWord.type === 'word') {
+        lastWord.value += char;
+      } else {
+        words.push(lastWord);
+        lastWord = {
+          type: 'word',
+          value: char,
+        };
+      }
+    }
+  }
+
+  words.push(lastWord);
+
+  return words;
+};
+
+export const formatLine = (line: string) => {
+  const words = lineToWords(line);
   const englishWords: string[] = [];
 
   for (let index = 0; index < words.length; index++) {
     const word = words[index];
+    const { type, value } = word;
 
-    if (isEnglishWord(word)) {
-      englishWords.push(word);
+    if (type === 'space') {
+      continue;
+    }
+
+    if (isEnglishWord(value)) {
+      englishWords.push(value);
     }
 
     if (
       // ignore the first English word
       englishWords.length <= 1 ||
       // ignore terms
-      isTerm(word, originalLine) ||
+      isTerm(value, line) ||
       // only format the first-char-uppercase English words
-      !isFirstCharUppercase(word)
+      !isFirstCharUppercase(value)
     ) {
       continue;
     }
 
-    const lowerCaseWord = word.toLowerCase();
-    if (lowerCaseWord !== word) {
-      line = line.replace(new RegExp(`\\b${word}\\b`, 'g'), lowerCaseWord);
+    const lowerCase = value.toLowerCase();
+    if (lowerCase !== value) {
+      word.value = lowerCase;
     }
   }
 
-  return line;
+  return words.map((word) => word.value).join('');
 };
 
 function formatContent(content: string, filePath: string) {
