@@ -27,7 +27,7 @@ const isTerm = (word: string, line: string) => {
 
 const shouldWrite = process.argv.includes('--write');
 
-const formatLine = (originalLine: string) => {
+export const formatLine = (originalLine: string) => {
   let line = originalLine;
   const words = line.trim().split(/\s+/);
   const englishWords: string[] = [];
