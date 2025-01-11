@@ -20,6 +20,7 @@ export const dict = [
   'EJS',
   'Emotion',
   'Fast Refresh',
+  'GitHub Actions',
   'GitHub Pages',
   'I',
   'Lightning CSS',
