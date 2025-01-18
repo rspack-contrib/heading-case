@@ -16,6 +16,7 @@ export const dict = [
   'Create React App',
   'Cloudflare Pages',
   'CSS Modules',
+  'Docusaurus',
   'Docusaurus Faster',
   'EJS',
   'Emotion',
@@ -25,6 +26,9 @@ export const dict = [
   'I',
   'Lightning CSS',
   'Module Federation',
+  'Nextra',
+  'Netlify',
+  'Kinsta',
   'Relay',
   'Parcel',
   'Preact',
@@ -51,4 +55,5 @@ export const dict = [
   'Vue',
   'Web Workers',
   'Xcode',
+  'Zeabur',
 ];
