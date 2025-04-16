@@ -39,6 +39,7 @@ export const dict = [
   'React',
   'React Compiler',
   'React Router',
+  'React Scan',
   'React Server Components',
   'Rollup',
   'Rsbuild',
